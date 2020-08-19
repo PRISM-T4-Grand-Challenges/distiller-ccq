@@ -1,0 +1,331 @@
+quantizers:
+  pact_quantizer:
+    class: PACTQuantizer
+    bits_activations: 8
+    bits_weights: 8
+    bits_overrides:
+      features.init_block.conv.conv:
+        wts: 8
+        acts: 8
+      features.init_block.conv.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit1.identity_conv.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit2.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit2.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit2.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit2.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit2.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit2.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit3.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit3.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit3.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit3.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage1.unit3.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage1.unit3.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit1.identity_conv.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit2.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit2.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit2.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit2.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit2.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit2.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit3.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit3.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit3.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit3.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit3.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit3.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit4.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit4.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit4.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit4.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage2.unit4.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage2.unit4.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit1.identity_conv.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit2.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit2.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit2.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit2.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit2.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit2.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit3.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit3.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit3.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit3.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit3.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit3.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit4.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit4.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit4.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit4.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit4.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit4.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit5.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit5.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit5.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit5.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit5.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit5.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit6.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit6.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit6.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit6.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage3.unit6.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage3.unit6.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit1.identity_conv.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit2.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit2.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit2.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit2.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit2.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit2.body.conv3.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit3.body.conv1.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit3.body.conv1.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit3.body.conv2.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit3.body.conv2.activ:
+        wts: 8
+        acts: 8
+      features.stage4.unit3.body.conv3.conv:
+        wts: 8
+        acts: 8
+      features.stage4.unit3.body.conv3.activ:
+        wts: 8
+        acts: 8
+      output:
+        wts: 8
+        acts: 8
+lr_schedulers:
+  training_lr:
+    class: StepLR
+    step_size: 2
+    gamma: 0.1
+policies:
+- quantizer:
+    instance_name: pact_quantizer
+  starting_epoch: 0
+  ending_epoch: 800
+  frequency: 1
+- lr_scheduler:
+    instance_name: training_lr
+  starting_epoch: 0
+  ending_epoch: 800
+  frequency: 1

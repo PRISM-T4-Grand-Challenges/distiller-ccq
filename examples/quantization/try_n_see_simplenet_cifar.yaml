@@ -1,0 +1,56 @@
+quantizers:
+  wrpn_quantizer:
+    class: WRPNQuantizer
+    bits_activations: 8
+    bits_weights: 8
+    bits_overrides:
+    # Don't quantize first and last layer
+      conv1:
+        wts: null
+        acts: null
+      conv2:
+        wts: 16
+        acts: 16
+    #  fc1:
+    #    wts: 8
+    #    acts: 8
+      fc2:
+        wts: 8
+        acts: 8
+      fc3:
+        wts: null
+        acts: null
+
+lr_schedulers:
+  training_lr1:
+    class: MultiStepLR
+    milestones: [4, 8, 12, 16, 20, 24, 28, 32, 36, 40]
+    gamma: 0.5
+  training_lr2:
+    class: MultiStepMultiGammaLR
+    milestones: [80, 120, 160]
+    gammas: [0.1, 0.1, 0.2]
+  training_lr3:
+    class: MultiStepLR
+    milestones: [20, 40, 60]
+    gamma: 0.5
+  training_lr4:
+    class: MultiStepLR
+    milestones: [15, 30, 45, 60]
+    gamma: 0.5
+  training_lr5:
+    class: MultiStepLR
+    milestones: [10, 20, 30]
+    gamma: 0.5
+    
+policies:  
+    - quantizer:
+        instance_name: wrpn_quantizer
+      starting_epoch: 0
+      ending_epoch: 200
+      frequency: 1
+    - lr_scheduler:
+        instance_name: training_lr4
+      starting_epoch: 0
+      ending_epoch: 161
+      frequency: 1
