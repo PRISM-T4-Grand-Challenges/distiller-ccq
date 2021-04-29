@@ -1,0 +1,10 @@
+#temp files
+.nfs*
+
+#cache files
+__pycache__
+*.pyc
+
+third_cifar/
+*.tar
+
