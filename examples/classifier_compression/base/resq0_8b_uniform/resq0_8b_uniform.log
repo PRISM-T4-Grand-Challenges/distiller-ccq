@@ -1,4 +1,3 @@
-2019-09-13 05:21:27,981 - Log file for this run: /home/mdl/mzk591/var/resnet8b_training/res18/examples/classifier_compression/8b_logs/res18___2019.09.13-052127/res18___2019.09.13-052127.log
 2019-09-13 05:21:27,981 - Number of CPUs: 128
 2019-09-13 05:21:28,048 - Number of GPUs: 4
 2019-09-13 05:21:28,048 - CUDA version: 9.2.148
