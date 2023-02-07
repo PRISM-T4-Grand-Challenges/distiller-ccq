@@ -1,6 +1,6 @@
 # Competitive Collaborative Quantization (CCQ)
 
-This repo is the PyTorch implementation of our DAC'22 paper on [Learning to Quantize Deep Neural Networks: A Competitive-Collaborative Approach](https://ieeexplore.ieee.org/abstract/document/9218576)
+This repo is the PyTorch implementation of our DAC'20 paper on [Learning to Quantize Deep Neural Networks: A Competitive-Collaborative Approach](https://ieeexplore.ieee.org/abstract/document/9218576)
 
 <p align="center">
 	<img src="examples/accuracy.png" 
