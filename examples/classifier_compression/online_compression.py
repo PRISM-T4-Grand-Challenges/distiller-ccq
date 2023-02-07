@@ -682,7 +682,7 @@ def main():
         
         if (epoch-start_epoch) > 2:
         
-            if(curr_acc>67.5):
+            if(curr_acc>0.99*top1):
                 msglogger.info("Goal obtained!!")
                 end_epoch = end_epoch-1
                 exit_flag = True
