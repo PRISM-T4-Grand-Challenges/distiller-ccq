@@ -85,63 +85,17 @@ import yaml
 import yamlordereddictloader
 import tabulate
 
-# import sys
-# pid = str(os.getpid())
-
 # quantizer = 'pact_quantizer'
-secondary = "./just/tensor.yaml"
+secondary = "./dump_space/tensor.yaml"
 
 curr_bit_lib = {}
 next_bit_lib = {}
 
-# res20_weights = {'conv1':432,'layer1.0.conv1':2304,'layer1.0.conv2':2304,'layer1.1.conv1':2304,'layer1.1.conv2':2304,'layer1.2.conv1':2304,'layer1.2.conv2':2304,'layer2.0.conv1':4608, \
-                # 'layer2.0.conv2':9216,'layer2.0.downsample.0':512,'layer2.1.conv1':9216,'layer2.1.conv2':9216,'layer2.2.conv1':9216,'layer2.2.conv2':9216,'layer3.0.conv1':18432, \
-                # 'layer3.0.conv2':36864,'layer3.0.downsample.0':2048,'layer3.1.conv1':36864,'layer3.1.conv2':36864,'layer3.2.conv1':36864,'layer3.2.conv2':36864,'fc':36864}
-
-# res18_weights = {'conv1':9408,'layer1.0.conv1':36864,'layer1.0.conv2':36864,'layer1.1.conv1':36864,'layer1.1.conv2':36864,'layer2.0.conv1':73728,'layer2.0.conv2':147456, \
-                # 'layer2.1.conv1':147456,'layer2.1.conv2':147456,'layer3.0.conv1':294912,'layer3.0.conv2':589824,'layer3.1.conv1':589824,'layer3.1.conv2':589824, \
-                # 'layer4.0.conv1':1179648,'layer4.0.conv2':2359296,'layer4.1.conv1':2359296,'layer4.1.conv2':2359296,'fc':512000}
-
-# res50_weights = {'conv1':9408,'layer1.0.conv1':4096,'layer1.0.conv2':36864,'layer1.0.conv3':16384,'layer1.0.downsample.0':16384,'layer1.1.conv1':16384,'layer1.1.conv2':36864,'layer1.1.conv3':16384,\
-                # 'layer1.2.conv1':16384,'layer1.2.conv2':36864,'layer1.2.conv3':16384,'layer2.0.conv1':32768,'layer2.0.conv2':147456,'layer2.0.conv3':65536,'layer2.0.downsample.0':131072, \
-                # 'layer2.1.conv1':65536,'layer2.1.conv2':147456,'layer2.1.conv3':65536,'layer2.2.conv1':65536,'layer2.2.conv2':147456,'layer2.2.conv3':65536,'layer2.3.conv1':65536, \
-                # 'layer2.3.conv2':147456,'layer2.3.conv3':65536,'layer3.0.conv1':131072,'layer3.0.conv2':589824,'layer3.0.conv3':262144,'layer3.0.downsample.0':524288,'layer3.1.conv1':262144, \
-                # 'layer3.1.conv2':589824,'layer3.1.conv3':262144,'layer3.2.conv1':262144,'layer3.2.conv2':589824,'layer3.2.conv3':262144,'layer3.3.conv1':262144,'layer3.3.conv2':589824, \
-                # 'layer3.3.conv3':262144,'layer3.4.conv1':262144,'layer3.4.conv2':589824,'layer3.4.conv3':262144,'layer3.5.conv1':262144,'layer3.5.conv2':589824,'layer3.5.conv3':262144, \
-                # 'layer4.0.conv1':524288,'layer4.0.conv2':2359296,'layer4.0.conv3':1048576,'layer4.0.downsample.0':2097125,'layer4.1.conv1':1048576,'layer4.1.conv2':2359296, \
-                # 'layer4.1.conv3':1048576,'layer4.2.conv1':1048576,'layer4.2.conv2':2359296,'layer4.2.conv3':1048576,'fc':2048000}
-
-# res50_weights = {'conv1':9408,'layer1.0.conv1':4096,'layer1.0.conv2':36864,'layer1.0.conv3':16384,'layer1.1.conv1':16384,'layer1.1.conv2':36864,'layer1.1.conv3':16384,\
-                # 'layer1.2.conv1':16384,'layer1.2.conv2':36864,'layer1.2.conv3':16384,'layer2.0.conv1':32768,'layer2.0.conv2':147456,'layer2.0.conv3':65536, \
-                # 'layer2.1.conv1':65536,'layer2.1.conv2':147456,'layer2.1.conv3':65536,'layer2.2.conv1':65536,'layer2.2.conv2':147456,'layer2.2.conv3':65536,'layer2.3.conv1':65536, \
-                # 'layer2.3.conv2':147456,'layer2.3.conv3':65536,'layer3.0.conv1':131072,'layer3.0.conv2':589824,'layer3.0.conv3':262144,'layer3.1.conv1':262144, \
-                # 'layer3.1.conv2':589824,'layer3.1.conv3':262144,'layer3.2.conv1':262144,'layer3.2.conv2':589824,'layer3.2.conv3':262144,'layer3.3.conv1':262144,'layer3.3.conv2':589824, \
-                # 'layer3.3.conv3':262144,'layer3.4.conv1':262144,'layer3.4.conv2':589824,'layer3.4.conv3':262144,'layer3.5.conv1':262144,'layer3.5.conv2':589824,'layer3.5.conv3':262144, \
-                # 'layer4.0.conv1':524288,'layer4.0.conv2':2359296,'layer4.0.conv3':1048576,'layer4.1.conv1':1048576,'layer4.1.conv2':2359296, \
-                # 'layer4.1.conv3':1048576,'layer4.2.conv1':1048576,'layer4.2.conv2':2359296,'layer4.2.conv3':1048576,'fc':2048000}
-
-# res50_weights = {'features.init_block.conv.conv': 9408, 'features.stage1.unit1.body.conv1.conv': 4096, 'features.stage1.unit1.body.conv2.conv': 36864, 'features.stage1.unit1.body.conv3.conv': 16384,\
-                 # 'features.stage1.unit1.identity_conv.conv': 16384, 'features.stage1.unit2.body.conv1.conv': 16384, 'features.stage1.unit2.body.conv2.conv': 36864,\
-                 # 'features.stage1.unit2.body.conv3.conv': 16384,'features.stage1.unit3.body.conv1.conv': 16384, 'features.stage1.unit3.body.conv2.conv': 36864, \
-                 # 'features.stage1.unit3.body.conv3.conv': 16384, 'features.stage2.unit1.body.conv1.conv': 32768,\
-                 # 'features.stage2.unit1.body.conv2.conv': 147456, 'features.stage2.unit1.body.conv3.conv': 65536, 'features.stage2.unit1.identity_conv.conv': 131072, 'features.stage2.unit2.body.conv1.conv': 65536,\
-                 # 'features.stage2.unit2.body.conv2.conv': 147456, 'features.stage2.unit2.body.conv3.conv': 65536, 'features.stage2.unit3.body.conv1.conv': 65536, 'features.stage2.unit3.body.conv2.conv': 147456,\
-                 # 'features.stage2.unit3.body.conv3.conv': 65536, 'features.stage2.unit4.body.conv1.conv': 65536, 'features.stage2.unit4.body.conv2.conv': 147456, 'features.stage2.unit4.body.conv3.conv': 65536,\
-                 # 'features.stage3.unit1.body.conv1.conv': 131072, 'features.stage3.unit1.body.conv2.conv': 589824, 'features.stage3.unit1.body.conv3.conv': 262144, 'features.stage3.unit1.identity_conv.conv': 524288,\
-                 # 'features.stage3.unit2.body.conv1.conv': 262144, 'features.stage3.unit2.body.conv2.conv': 589824, 'features.stage3.unit2.body.conv3.conv': 262144, 'features.stage3.unit3.body.conv1.conv': 262144,\
-                 # 'features.stage3.unit3.body.conv2.conv': 589824, 'features.stage3.unit3.body.conv3.conv': 262144, 'features.stage3.unit4.body.conv1.conv': 262144, 'features.stage3.unit4.body.conv2.conv': 589824,\
-                 # 'features.stage3.unit4.body.conv3.conv': 262144, 'features.stage3.unit5.body.conv1.conv': 262144, 'features.stage3.unit5.body.conv2.conv': 589824, 'features.stage3.unit5.body.conv3.conv': 262144,\
-                 # 'features.stage3.unit6.body.conv1.conv': 262144, 'features.stage3.unit6.body.conv2.conv': 589824, 'features.stage3.unit6.body.conv3.conv': 262144, 'features.stage4.unit1.body.conv1.conv': 524288,\
-                 # 'features.stage4.unit1.body.conv2.conv': 2359296, 'features.stage4.unit1.body.conv3.conv': 1048576, 'features.stage4.unit1.identity_conv.conv': 2097125,\
-                 # 'features.stage4.unit2.body.conv1.conv': 1048576, 'features.stage4.unit2.body.conv2.conv': 2359296, 'features.stage4.unit2.body.conv3.conv': 1048576,\
-                 # 'features.stage4.unit3.body.conv1.conv': 1048576, 'features.stage4.unit3.body.conv2.conv': 2359296, 'features.stage4.unit3.body.conv3.conv': 1048576, 'output': 2048000}
-
-vgg16_weights = {'features.0':1728,'features.3':36864,'features.7':73728,'features.10':147456,'features.14':294912,'features.17':589824,'features.20':589824, \
-                'features.24':1179648,'features.27':2359296,'features.30':2359296,'features.34':2359296,'features.37':2359296,'features.40':2359296, \
-                'classifier.0':102760448,'classifier.3':16777216,'classifier.6':4096000}
-
-weight_list = np.asarray(list(res50_weights.values()))
-# weight_list /= sum(weight_list)
+res18_weights = {'conv1':9408,'layer1.0.conv1':36864,'layer1.0.conv2':36864,'layer1.1.conv1':36864,'layer1.1.conv2':36864,'layer2.0.conv1':73728,'layer2.0.conv2':147456,'layer2.0.downsample.0':8192, \
+                'layer2.1.conv1':147456,'layer2.1.conv2':147456,'layer3.0.conv1':294912,'layer3.0.conv2':589824,'layer3.0.downsample.0':32768,'layer3.1.conv1':589824,'layer3.1.conv2':589824, \
+                'layer4.0.conv1':1179648,'layer4.0.conv2':2359296,'layer4.0.downsample.0':131072,'layer4.1.conv1':2359296,'layer4.1.conv2':2359296,'fc':512000}
+                
+weight_list = np.asarray(list(res18_weights.values()))
 
 bitmap = [8, 6, 4, 3, 2]
 
@@ -156,7 +110,7 @@ def get_layers(sched_dict,quantizer):
     temp_hold = list(sched_dict['quantizers'][quantizer]['bits_overrides'].keys())
     layers = []
     for item in temp_hold:
-        if 'activ' not in item:
+        if 'relu' not in item:
             layers.append(item)
     return layers
     
@@ -166,47 +120,11 @@ def get_pact_headers(model):
         if 'clip_val' in param_tensor:
             headers.append(param_tensor)
     return headers
-                        
-def do_next_scheduling(layers):
-    global next_bit_lib
-    global curr_bit_lib
-    for item in layers:
-        if(curr_bit_lib[item]==2):
-            next_bit_lib[item] = 2
-        else:
-            next_bit_lib[item] = int(curr_bit_lib[item]/2)
-            
-def yaml_rw(filename): ##not updated, see in the fly_on.py
-    global curr_bit_lib
-    global next_bit_lib
-    global layers
-    global quantizer
-    global secondary
-    try:
-        # print(filename)
-        sched_dict =yaml.load(open(filename), Loader=yamlordereddictloader.Loader)
-        # print(sched_dict)
-        layers = list(get_layers(sched_dict))        
-        # print(layers)
-        for item in layers:
-            curr_bit_lib[item] = sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts']
-        
-        do_next_scheduling(layers)
-        
-        for item in layers:
-            sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts'] = next_bit_lib[item]
-            sched_dict['quantizers'][quantizer]['bits_overrides'][item]['acts'] = next_bit_lib[item]
-        dump_yaml(sched_dict,secondary,'w') ##Output YAML file name 
-    except yaml.YAMLError as exc:
-        print("\nFATAL parsing error while parsing the schedule configuration file %s" % filename)
-        raise
+           
 
 def write_layer_name(data,sched_dict):
-    # i = 0
-    # while(sched_dict['quantizers'][quantizer]['bits_overrides'][data[i][0]]['wts']==2):
-        # i=i+1
     row = []
-    with open("./dumping_station/data.csv", "a") as csvfile:
+    with open("./dump_space/layer_to_quantize.csv", "a") as csvfile:
         writer = csv.writer(csvfile)
         row.append(data)
         writer.writerow(row)
@@ -230,8 +148,8 @@ msglogger = None
 ##kaap_Jhaap begin
 import csv
 
-val_loss_file = "./just/val_loss.csv"
-train_loss_file = "./just/train_loss.csv"
+val_loss_file = "./dump_space/val_loss.csv"
+train_loss_file = "./dump_space/train_loss.csv"
 
 val_loss_track = {}
 train_loss_track = {}
@@ -268,6 +186,22 @@ def get_valid_acc(key_val):
     new_val = new_val[:pos2]
     
     return float(new_val)
+    
+def get_weight_volume(layers, sched_dict, quantizer, fp=False):
+    
+    weight_volume = 0
+    
+    for item in layers:
+        if fp:
+            bits = 32
+        else:
+            bits = sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts']
+        
+        weight_volume += bits*res18_weights[item]
+    
+    weight_volume /= (1024*1024*8)
+    
+    return weight_volume
 
 parser = argparse.ArgumentParser(description='Distiller image classification model compression')
 parser.add_argument('data', metavar='DIR', help='path to dataset')
@@ -465,7 +399,7 @@ def main():
     global val_loss_file
     global train_loss_file
     global secondary
-    global res50_weights
+    global res18_weights
     global weight_list
     global bitmap
     check_pytorch_version()
@@ -516,12 +450,6 @@ def main():
         # Set default device in case the first one on the list != 0
         torch.cuda.set_device(args.gpus[0])
 
-    # Infer the dataset from the model name
-    #args.dataset = 'cifar100' if 'cifar' in args.arch else 'imagenet'
-    #args.num_classes = 10 if args.dataset == 'cifar10' else 1000
-   
-    ##edited by ffk##
-    #print(args.arch)
     if 'cifar100' in args.arch:
         args.dataset = 'cifar100'
     elif 'cifar' in args.arch:
@@ -602,8 +530,6 @@ def main():
     if args.evaluate:
         return evaluate_model(model, criterion, test_loader, pylogger, activations_collectors, args)
     
-    # os.kill(os.getpid(), signal.SIGUSR1)
-    
     if args.compress:
         # The main use-case for this sample application is CNN compression. Compression
         # requires a compression schedule configuration file in YAML.
@@ -622,7 +548,7 @@ def main():
         headers = get_pact_headers(model)
         pact_dict={}
         try:
-            with open('./just/pact_track.csv','r') as csvfile:
+            with open('./dump_space/pact_track.csv','r') as csvfile:
                 reader = csv.DictReader(csvfile)
                 for line in reader:
                     pass
@@ -635,7 +561,7 @@ def main():
                 # print(model)
                 
         except:
-            with open('./just/pact_track.csv','w') as csvfile:
+            with open('./dump_space/pact_track.csv','w') as csvfile:
                 for param_tensor in headers:
                     pact_dict[param_tensor] = float(model.state_dict()[param_tensor].data)
                 writer = csv.DictWriter(csvfile,fieldnames = headers)
@@ -643,19 +569,17 @@ def main():
                 writer.writerow(pact_dict)
                 msglogger.info("Writing Clip Parameter Value... ... ... ...")
                 log_pact(pact_dict)
+
+    ## Calc Weight Volume:
+    quant_weight_volume = get_weight_volume(layers, sched_dict, quantizer, fp=False)
+    fp_weight_volume = get_weight_volume(layers, sched_dict, quantizer, fp=True)
+
+    msglogger.info("Total quantized model size in MB {}".format(quant_weight_volume))
+    msglogger.info("The relative compression ratio is {}".format(fp_weight_volume/quant_weight_volume))
     
-    # for param_tensor in model.state_dict():
-        # if 'clip_val' in param_tensor:
-            # val = model.state_dict()[param_tensor].data
-            # print(param_tensor, " = ", val)
-            
-            # if('layer1.0.relu1' in param_tensor):
-                # model.state_dict()[param_tensor].data.copy_(torch.Tensor([2.3]).cuda())
-                # print("Modified..........")
-                # print(param_tensor, " = ", val)
-                
-    
-    # os.kill(os.getpid(), signal.SIGUSR1)
+    quant_weight_volume *= 1000
+    quant_weight_volume = round(quant_weight_volume)
+    quant_weight_volume /= 1000
     
     args.kd_policy = None
     if args.kd_teacher:
@@ -674,32 +598,25 @@ def main():
                        ' | '.join(['{:.2f}'.format(val) for val in dlw]))
         msglogger.info('\tStarting from Epoch: %s', args.kd_start_epoch)
 	
-    vloss = float('inf') ##fix something absurdly large not possible
-    #print(vloss)
+    # vloss = float('inf') # fix something absurdly large not possible
+
     end_epoch = start_epoch + args.epochs 
-    
     
     alpha_dict={}
     try:
-        with open('./just/alpha_track.csv','r') as csvfile:
+        with open('./dump_space/alpha_track.csv','r') as csvfile:
             reader = csv.DictReader(csvfile)
             for line in reader:
                 pass
             alpha_dict = line
 
     except:
-        with open('./just/alpha_track.csv','w') as csvfile:
+        with open('./dump_space/alpha_track.csv','w') as csvfile:
             writer = csv.DictWriter(csvfile,fieldnames = layers)
             for layer in layers:
                 alpha_dict[layer] = 1
             writer.writeheader()
             writer.writerow(alpha_dict)
-    
-    
-    # for param_tensor in model.state_dict():
-        # if 'clip_val' in param_tensor:
-            # val = model.state_dict()[param_tensor].data
-            # print(param_tensor, " = ", val)
     
     # for epoch in range(start_epoch, end_epoch):
     epoch = start_epoch
@@ -708,7 +625,7 @@ def main():
         msglogger.info('\n')
         
         if compression_scheduler:
-            compression_scheduler.on_epoch_begin(epoch,vloss) #1st intro to vloss
+            compression_scheduler.on_epoch_begin(epoch) #1st intro to vloss
                       
         # Train for one epoch
         with collectors_context(activations_collectors["train"]) as collectors:
@@ -725,24 +642,9 @@ def main():
         # evaluate on validation set
         with collectors_context(activations_collectors["valid"]) as collectors:
             top1, top5, vloss = validate(val_loader, model, criterion, [pylogger], args, epoch)
-            ##kaap_Jhaap begin
-            ## Calc Weight Volume:
-            weight_volume = 0
-            for item in layers:
-                bits = sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts']
-                weight_volume += bits*res50_weights[item]
-            
-            
-            weight_volume /= (1024*1024*8)
-            # weight_volume += 2.64
 
-            msglogger.info("Total Weights in MB = " + str(weight_volume))
-            
-            weight_volume *= 1000
-            weight_volume = round(weight_volume)
-            weight_volume /= 1000
             key = 'Epoch_' + str(epoch)
-            val_loss_track[key]=str(vloss)+','+str(top1)+','+str(weight_volume)+' mb'
+            val_loss_track[key]=str(vloss)+','+str(top1)+','+str(quant_weight_volume)+' mb'
             ##kaap_jhap end
             distiller.log_activation_statsitics(epoch, "valid", loggers=[tflogger],
                                                 collector=collectors["sparsity"])
@@ -768,26 +670,30 @@ def main():
         for score in reversed(best_epochs):
             if score.top1 > 0:
                 msglogger.info('==> Best Top1: %.3f on Epoch: %d', score.top1, score.epoch)
-        #print_model(model)
         
-        ##kaap_jhaap for ephsilon
+        # tweak for ephsilon
         end_epoch = epoch+2
         
         key_val = val_loss_track[key]
         curr_acc = get_valid_acc(key_val)
         msglogger.info("Current Validation Accuracy: " + str(curr_acc))
         
-        if(curr_acc>75.5):
-            msglogger.info("Goal obtained!!")
-            end_epoch = end_epoch-1
-            exit_flag = True
-        else:
-            msglogger.info("Better Luck Next Time...!")
-            exit_flag = False
+        exit_flag = False
+        
+        if (epoch-start_epoch) > 2:
+        
+            if(curr_acc>67.5):
+                msglogger.info("Goal obtained!!")
+                end_epoch = end_epoch-1
+                exit_flag = True
+            else:
+                msglogger.info("Better Luck Next Time...!")
+
         apputils.save_checkpoint(epoch, end_epoch, args.arch, model, optimizer, compression_scheduler,
                                  best_epochs[-1].top1, is_best, args.name, msglogger.logdir)
         
         epoch = epoch+1
+
         if(exit_flag):
             break
         
@@ -804,15 +710,15 @@ def main():
         
         msglogger.info("Saving PACT param_value.......")
         # logging in the csv file
-        with open('./just/pact_track.csv','a') as csvfile:
+        with open('./dump_space/pact_track.csv','a') as csvfile:
             writer = csv.DictWriter(csvfile,fieldnames = headers)
             writer.writerow(pact_dict)
             
             msglogger.info("The PACT Clip Parameter Value............")
             log_pact(pact_dict)
     
-    bar = int(args.name.strip('refar'))
-    if (bar == args.qsteps):
+    current_qstep = int(args.name.strip('resq'))
+    if (current_qstep == args.qsteps):
         msglogger.info('The final alpha dict is:')
         data = list(alpha_dict.items())
         t = tabulate.tabulate(data, headers=["Layers", "Alpha"], tablefmt="psql") 
@@ -820,7 +726,7 @@ def main():
         msglogger.info(t)
         quit()
     
-    ##Haabi Jaabi
+    ##CCQ
     ################################################################################################
     #To get the next level quantization error
     ################################################################################################
@@ -835,10 +741,12 @@ def main():
         model_test = create_model(args.pretrained, args.dataset, args.arch,
                          parallel=not args.load_serialized, device_ids=args.gpus)
         model_test, megh_roddur, start_epoch = apputils.load_checkpoint(
-            model_test, chkpt_file=fullpath)
-        # print(megh_roddur)
+            model_test, chkpt_file=fullpath, print_line=False)
+        
         litmas = sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts']
-        if(litmas==2 or litmas==None):
+        msglogger.info("layer: {} current bit-width: {}".format(item, litmas)) 
+        
+        if(litmas<=3):
             not_sleeping.append(0)
         else:
             not_sleeping.append(1)
@@ -847,20 +755,23 @@ def main():
             sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts'] = int(bitmap[current_config+1])
             sched_dict['quantizers'][quantizer]['bits_overrides'][item]['acts'] = int(bitmap[current_config+1])
             flag = False
-            if 'identity_conv' in item or 'output' in item:
-                pass
-            else:
-                acts = item[:-4] + 'activ'
+            if item == 'conv1':
+                acts = 'relu'
+                sched_dict['quantizers'][quantizer]['bits_overrides'][acts]['wts'] = int(bitmap[current_config+1])
+                sched_dict['quantizers'][quantizer]['bits_overrides'][acts]['acts'] = int(bitmap[current_config+1])
+                flag = True
+            elif 'conv' in item:
+                acts = item.replace('conv','relu')
                 sched_dict['quantizers'][quantizer]['bits_overrides'][acts]['wts'] = int(bitmap[current_config+1])
                 sched_dict['quantizers'][quantizer]['bits_overrides'][acts]['acts'] = int(bitmap[current_config+1])
                 flag = True
             dump_yaml(sched_dict,secondary,'w')
-            megh_roddur = distiller.file_config(model_test, optimizer, secondary, megh_roddur)
+            megh_roddur = distiller.file_config(model_test, optimizer, secondary, megh_roddur, print_line=False)
                         
             if quantizer == 'pact_quantizer':
                 update_pact_alpha(pact_dict,model_test,headers)
                 model_test.cuda()
-                print(model_test)
+                # print(model_test)
                 
             top1, top5, vloss = _validate(bandit_loader, model_test, criterion,[pylogger], args, epoch)
             sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts'] = bp
@@ -870,13 +781,14 @@ def main():
                 sched_dict['quantizers'][quantizer]['bits_overrides'][acts]['acts'] = bp
 
             alpha_dict[item] = float(alpha_dict[item])*math.exp(top1/100.0)
-            msglogger.info('Gradual change in alpha values')
-            data = list(alpha_dict.items())
-            t = tabulate.tabulate(data, headers=["Layers", "Alpha"], tablefmt="psql") 
-            msglogger.info(t)   
+            # msglogger.info('Gradual change in alpha values')
+            # data = list(alpha_dict.items())
+            # t = tabulate.tabulate(data, headers=["Layers", "Alpha"], tablefmt="psql") 
+            # msglogger.info(t)  
+            msglogger.info("Done updating alpha for layer {}".format(item))  
         
     # logging in the csv file
-    with open('./just/alpha_track.csv','a') as csvfile:
+    with open('./dump_space/alpha_track.csv','a') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames = layers)
         writer.writerow(alpha_dict)
     
@@ -897,7 +809,7 @@ def main():
     bit_config = []
     for item in layers:
         bits = sched_dict['quantizers'][quantizer]['bits_overrides'][item]['wts']
-        if(bits==2):
+        if(bits<=3):
             diff = 0
             bit_config.append(diff)
         else:
@@ -915,8 +827,12 @@ def main():
     msglogger.info(list(ri))
     
     ## Lamda schedule
-    # bar = int(args.name.strip('refar'))
-    lamda = 0.6*(args.qsteps-bar)/args.qsteps + 0.4
+    
+    if current_qstep%2: # This will work if current_qstep is odd
+        lamda = 0.0
+    else:
+        lamda = 0.6*(args.qsteps-current_qstep)/args.qsteps + 0.4 #This is hard coded for refar65
+    
     if(lamda<0):
         lamda=0
 
@@ -930,17 +846,11 @@ def main():
     selection = np.random.choice(layers,replace=False,p=probability)
     msglogger.info(selection+', bp ='+ str(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']))
     while(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']>=2):
-        if(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']==3):
-            # to_dist = float(alpha_dict[selection])
+        if(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']==4):
             alpha_dict[selection] = 0.0
-            # count = sum(val!=0.0 for val in np.float_(list(alpha_dict.values())))
-            # to_dist /= float(count)
-            # for k in alpha_dict.keys():
-                # if(float(alpha_dict[k])!=0.0):
-                    # alpha_dict[k] = float(alpha_dict[k])+to_dist
             write_layer_name(selection,sched_dict)
             break
-        elif(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']==2):
+        elif(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']<=3):
             selection = np.random.choice(layers,replace=False,p=probability)
             msglogger.info(selection+', bp ='+ str(sched_dict['quantizers'][quantizer]['bits_overrides'][selection]['wts']))
         else:
@@ -970,7 +880,7 @@ def main():
     msglogger.info(t)
             
     # logging in the csv file
-    with open('./just/alpha_track.csv','a') as csvfile:
+    with open('./dump_space/alpha_track.csv','a') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames = layers)
         writer.writerow(alpha_dict)
         
@@ -1011,7 +921,7 @@ def train(train_loader, model, criterion, optimizer, epoch, start_epoch,
     
     total_iter = 10*steps_per_epoch
     # print(total_iter)
-    lr_max = 0.0005
+    lr_max = 0.001
     lr_min = args.lr
     # print(initial_lr)
     
@@ -1049,7 +959,7 @@ def train(train_loader, model, criterion, optimizer, epoch, start_epoch,
             #### loss tracking -> my addition
             if(train_step%50==0):
                 key = 'Epoch_'+str(epoch)+'_Step_'+str(train_step)
-                train_loss_track[key]=loss.cpu().data[0].numpy()
+                train_loss_track[key]=loss.cpu().item()
             
             # Measure accuracy and record loss
             classerr.add(output.data, target)

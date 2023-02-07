@@ -80,7 +80,7 @@ class Quantizer(object):
                 3.2 We also back-prop through the 'quantize' operation from step 1
             4. Update fp_weights with gradients calculated in step 3.2
     """
-    def __init__(self, model, optimizer=None, bits_activations=None, bits_weights=None, bits_overrides=OrderedDict(),
+    def __init__(self, model, print_line=True, optimizer=None, bits_activations=None, bits_weights=None, bits_overrides=OrderedDict(),
                  quantize_bias=False, train_with_fp_copy=False):
         if not isinstance(bits_overrides, OrderedDict):
             raise TypeError('bits_overrides must be an instance of collections.OrderedDict')
@@ -92,7 +92,7 @@ class Quantizer(object):
         self.quantize_bias = quantize_bias
 
         self.model = model
-        print(self.model)
+        # print(self.model)
         self.optimizer = optimizer
 
         # Stash some quantizer data in the model so we can re-apply the quantizer on a resuming model
@@ -147,12 +147,13 @@ class Quantizer(object):
             qbits = QBits(acts=qbits.acts, wts=None)
         self.module_qbits_map[module_name] = qbits
 
-    def prepare_model(self):
+    def prepare_model(self, print_line=True):
         r"""
         Iterates over the model and replaces modules with their quantized counterparts as defined by
         self.replacement_factory
         """
-        msglogger.info('Preparing model for quantization using {0}'.format(self.__class__.__name__))
+        if print_line:
+            msglogger.info('Preparing model for quantization using {0}'.format(self.__class__.__name__))
         self._pre_process_container(self.model)
 
         for module_name, module in self.model.named_modules():
@@ -171,8 +172,9 @@ class Quantizer(object):
                 self.params_to_quantize.append(_ParamToQuant(module, module_name, fp_attr_name, param_name, qbits.wts))
 
                 param_full_name = '.'.join([module_name, param_name])
-                msglogger.info(
-                    "Parameter '{0}' will be quantized to {1} bits".format(param_full_name, qbits.wts))
+                if print_line:
+                    msglogger.info(
+                        "Parameter '{0}' will be quantized to {1} bits".format(param_full_name, qbits.wts))
 
         # If an optimizer was passed, assume we need to update it
         if self.optimizer:
@@ -180,7 +182,8 @@ class Quantizer(object):
             new_optimizer = optimizer_type(self._get_updated_optimizer_params_groups(), **self.optimizer.defaults)
             self.optimizer.__setstate__({'param_groups': new_optimizer.param_groups})
 
-        msglogger.info('Quantized model:\n\n{0}\n'.format(self.model))
+        # msglogger.info('Quantized model:\n\n{0}\n'.format(self.model))
+        msglogger.info('Model has been quantized... ok!')
 
     def _pre_process_container(self, container, prefix=''):
         # Iterate through model, insert quantization functions as appropriate

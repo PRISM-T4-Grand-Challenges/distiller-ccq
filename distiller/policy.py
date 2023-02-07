@@ -42,7 +42,7 @@ class ScheduledTrainingPolicy(object):
         self.classes = classes
         self.layers = layers
 
-    def on_epoch_begin(self, model, vloss, zeros_mask_dict, meta): ##danger
+    def on_epoch_begin(self, model, zeros_mask_dict, meta): ##danger
         """A new epcoh is about to begin"""
         pass
 
@@ -209,21 +209,22 @@ class LRPolicy(ScheduledTrainingPolicy):
         super(LRPolicy, self).__init__()
         self.lr_scheduler = lr_scheduler
 
-    def on_epoch_begin(self, model, vloss, zeros_mask_dict, meta): ##add vloss as an argument
+    def on_epoch_end(self, model, zeros_mask_dict, meta): ##add vloss as an argument # was on_epoch_begin
         lr_magician = self.lr_scheduler.__class__.__name__
         #print(lr_magician)
         #print(vloss)
         ##Check if the scheduling policy 'ReduceLROnPlateau' works 
-        if 'ReduceLROnPlateau' in lr_magician:
-           self.lr_scheduler.step(vloss)
-        else:
-            self.lr_scheduler.step()
+        # if 'ReduceLROnPlateau' in lr_magician:
+           # self.lr_scheduler.step(vloss)
+        # else:
+            # self.lr_scheduler.step()
+        self.lr_scheduler.step()
 
 class QuantizationPolicy(ScheduledTrainingPolicy):
-    def __init__(self, quantizer):
+    def __init__(self, quantizer, print_line=True):
         super(QuantizationPolicy, self).__init__()
         self.quantizer = quantizer
-        self.quantizer.prepare_model()
+        self.quantizer.prepare_model(print_line)
         self.quantizer.quantize_params()
 
     def on_minibatch_end(self, model, epoch, minibatch_id, minibatches_per_epoch, zeros_mask_dict, optimizer):

@@ -111,7 +111,7 @@ def save_checkpoint(epoch, end_epoch, arch, model, optimizer=None, scheduler=Non
     restore_model(model)
 
 
-def load_checkpoint(model, chkpt_file, optimizer=None):
+def load_checkpoint(model, chkpt_file, optimizer=None, print_line=True):
     """Load a pytorch training checkpoint
 
     Args:
@@ -123,12 +123,14 @@ def load_checkpoint(model, chkpt_file, optimizer=None):
     start_epoch = 0
 
     if os.path.isfile(chkpt_file):
-        msglogger.info("=> loading checkpoint %s", chkpt_file)
-        checkpoint = torch.load(chkpt_file,map_location='cuda:0')
-        msglogger.info("Checkpoint keys:\n{}".format("\n\t".join(k for k in checkpoint.keys())))
+        if print_line:
+            msglogger.info("=> loading checkpoint %s", chkpt_file)
+        checkpoint = torch.load(chkpt_file,map_location='cuda:1')
+        if print_line:
+            msglogger.info("Checkpoint keys:\n{}".format("\n\t".join(k for k in checkpoint.keys())))
         start_epoch = checkpoint['epoch'] + 1
         best_top1 = checkpoint.get('best_top1', None)
-        if best_top1 is not None:
+        if best_top1 is not None and print_line:
             msglogger.info("   best top@1: %.3f", best_top1)
 
         if 'compression_sched' in checkpoint:
@@ -154,8 +156,8 @@ def load_checkpoint(model, chkpt_file, optimizer=None):
             # qmd = checkpoint['quantizer_metadata']
             # quantizer = qmd['type'](model, **qmd['params'])
             # quantizer.prepare_model()
-
-        msglogger.info("=> loaded checkpoint '%s' (epoch %d)", chkpt_file, checkpoint['epoch'])
+        if print_line:
+            msglogger.info("=> loaded checkpoint '%s' (epoch %d)", chkpt_file, checkpoint['epoch'])
 
         model.load_state_dict(checkpoint['state_dict'],strict=False)
         #print_model(model)

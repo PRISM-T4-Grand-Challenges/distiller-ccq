@@ -56,8 +56,8 @@ def print_model(model):
         if 'classifier.1' in param_tensor:
             print(param_tensor, "\t", model.state_dict()[param_tensor])
 
-def dict_config(model, optimizer, sched_dict, scheduler=None):
-    app_cfg_logger.debug('Schedule contents:\n' + json.dumps(sched_dict, indent=2))
+def dict_config(model, optimizer, sched_dict, print_line=True, scheduler=None):
+    # app_cfg_logger.debug('Schedule contents:\n' + json.dumps(sched_dict, indent=2))
 
     if scheduler is None:
         scheduler = distiller.CompressionScheduler(model)
@@ -98,7 +98,7 @@ def dict_config(model, optimizer, sched_dict, scheduler=None):
                 instance_name, args = __policy_params(policy_def, 'quantizer')
                 assert instance_name in quantizers, "Quantizer {} was not defined in the list of quantizers".format(instance_name)
                 quantizer = quantizers[instance_name]
-                policy = distiller.QuantizationPolicy(quantizer)
+                policy = distiller.QuantizationPolicy(quantizer, print_line)
 
             elif 'lr_scheduler' in policy_def:
                 # LR schedulers take an optimizer in their CTOR, so postpone handling until we're certain
@@ -146,13 +146,13 @@ def add_policy_to_scheduler(policy, policy_def, scheduler):
                             frequency=policy_def['frequency'])
 
 
-def file_config(model, optimizer, filename, scheduler=None):
+def file_config(model, optimizer, filename, scheduler=None, print_line=True):
     """Read the schedule from file"""
     with open(filename, 'r') as stream:
         msglogger.info('Reading compression schedule from: %s', filename)
         try:
             sched_dict = yaml_ordered_load(stream)
-            return dict_config(model, optimizer, sched_dict, scheduler)
+            return dict_config(model, optimizer, sched_dict, print_line, scheduler)
         except yaml.YAMLError as exc:
             print("\nFATAL parsing error while parsing the schedule configuration file %s" % filename)
             raise

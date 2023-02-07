@@ -34,18 +34,6 @@ quantizers:
       layer1.1.relu2:
         wts: 8
         acts: 8
-      layer1.2.conv1:
-        wts: 8
-        acts: 8
-      layer1.2.relu1:
-        wts: 8
-        acts: 8
-      layer1.2.conv2:
-        wts: 8
-        acts: 8
-      layer1.2.relu2:
-        wts: 8
-        acts: 8
       layer2.0.conv1:
         wts: 8
         acts: 8
@@ -71,18 +59,6 @@ quantizers:
         wts: 8
         acts: 8
       layer2.1.relu2:
-        wts: 8
-        acts: 8
-      layer2.2.conv1:
-        wts: 8
-        acts: 8
-      layer2.2.relu1:
-        wts: 8
-        acts: 8
-      layer2.2.conv2:
-        wts: 8
-        acts: 8
-      layer2.2.relu2:
         wts: 8
         acts: 8
       layer3.0.conv1:
@@ -112,16 +88,31 @@ quantizers:
       layer3.1.relu2:
         wts: 8
         acts: 8
-      layer3.2.conv1:
+      layer4.0.conv1:
         wts: 8
         acts: 8
-      layer3.2.relu1:
+      layer4.0.relu1:
         wts: 8
         acts: 8
-      layer3.2.conv2:
+      layer4.0.conv2:
         wts: 8
         acts: 8
-      layer3.2.relu2:
+      layer4.0.relu2:
+        wts: 8
+        acts: 8
+      layer4.0.downsample.0:
+        wts: 8
+        acts: 8
+      layer4.1.conv1:
+        wts: 8
+        acts: 8
+      layer4.1.relu1:
+        wts: 8
+        acts: 8
+      layer4.1.conv2:
+        wts: 8
+        acts: 8
+      layer4.1.relu2:
         wts: 8
         acts: 8
       fc:
@@ -129,9 +120,9 @@ quantizers:
         acts: 8
 lr_schedulers:
   training_lr:
-    class: StepLR
-    step_size: 3
-    gamma: 0.2
+    class: MultiStepLR
+    milestones: [40, 70, 85, 105, 125, 145, 165, 175]
+    gamma: 0.5
 policies:
 - quantizer:
     instance_name: pact_quantizer
